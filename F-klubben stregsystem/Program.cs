@@ -6,7 +6,9 @@ namespace F_klubben_stregsystem
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            User user1 = new User("owen", "Mbo", "owenmo", "owendho200@gmail.com");
+            user1.ToString();
+            Console.WriteLine(user1.ToString());
         }
     }
 }

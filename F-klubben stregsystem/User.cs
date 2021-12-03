@@ -9,43 +9,43 @@ namespace F_klubben_stregsystem
 {
     class User
     {
-        public User(string FirstName, string LastName, string UserName)
+        public User(string FirstName, string LastName, string UserName, string Email)
         {
             firstName = FirstName;
             lastName = LastName;
             userName = UserName;
+            email = Email;
             ID += ID++;
         }
 
-        private string _userName, _email;
-        
+        private string _userName, _email, _firstname, _lastname;
         public int ID { get; set; }
+
         public string firstName
         {
             get
             {
-                return firstName;
+                return _firstname;
             }
             set
             {
-                if (firstName == null)
-                {
+                if (value == null)
                     throw new NullReferenceException();
-                }
+
+                _firstname = value;
             }
         }
         public string lastName
         {
             get
             {
-                return lastName;
+                return _lastname;
             }
             set
             {
-                if (lastName == null)
-                {
+                if (value == null)
                     throw new NullReferenceException();
-                }
+                _lastname = value;
             }
         }
 
@@ -61,7 +61,7 @@ namespace F_klubben_stregsystem
             {
                 Regex usernameExpression = new Regex(@"^[0-9?[a-z_]+$");
 
-                if (usernameExpression.IsMatch(value))
+                if (!usernameExpression.IsMatch(value))
                 {
                     throw new Exception("Invalid string");
                 }
@@ -88,15 +88,13 @@ namespace F_klubben_stregsystem
                 string localPart = emailStringSplit[0];
                 string domainPart = emailStringSplit[1];
 
-                bool isFirstCharletter = char.IsLetter(domainPart, 0);
-                
 
-                if (localPartExpression.IsMatch(localPart))
+                if (!localPartExpression.IsMatch(localPart) && !domainExpression.IsMatch(domainPart))
                 {
                     throw new Exception("invalid string");
                 }
 
-                if (domainExpression.IsMatch(domainPart) && !isFirstCharletter && domainPart.EndsWith(".") && domainPart.EndsWith("-"))
+                if (domainPart.StartsWith(".") ^ domainPart.StartsWith("-") ^ domainPart.EndsWith(".") ^ domainPart.EndsWith("-"))
                 {
                     throw new Exception("invalid string");
                 }
@@ -111,13 +109,17 @@ namespace F_klubben_stregsystem
                                            */
         public decimal Balance { get; set; }
 
-        public delegate void UserBalanceNotification(User user, decimal balance);
+        delegate void UserBalanceNotification(User user, decimal balance);
 
-        /*Figure out the delegate and toString() parts*/
+        public void InsuffecientBalance(UserBalanceNotification userbnotif)
+        {
+
+        }
+
 
         public override string ToString()
         {
-            return $"{firstName}{lastName}{userName}";
+            return $"{firstName} {lastName} {userName} {email}";
         }
 
     }
