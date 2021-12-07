@@ -15,7 +15,10 @@ namespace F_klubben_stregsystem
         public string date { get; set; }
 
         public int amount { get; set; }
-        string ToString();
-        void Execute();
+
+        void Execute()
+        {
+
+        }
     }
 }

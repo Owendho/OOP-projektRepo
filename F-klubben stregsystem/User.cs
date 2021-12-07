@@ -7,19 +7,41 @@ using System.Text.RegularExpressions;
 
 namespace F_klubben_stregsystem
 {
-    class User
+    class User : IComparable
     {
-        public User(string FirstName, string LastName, string UserName, string Email)
+        public User(string FirstName, string LastName, string UserName, string Email, decimal balance, int id)
         {
             firstName = FirstName;
             lastName = LastName;
             userName = UserName;
             email = Email;
-            ID += ID++;
+            Balance = balance;
+            ID = id;
+
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null)
+            {
+                return 1;
+            }
+
+            User testUser = new User(firstName, lastName, userName, email, Balance, ID);
+
+            if (testUser != null)
+            {
+                return testUser.CompareTo(obj);
+            }
+            else
+            {
+                throw new ArgumentException("This is not a user");
+            }
+
         }
 
         private string _userName, _email, _firstname, _lastname;
-        public int ID { get; set; }
+        private int ID { get; set; }
 
         public string firstName
         {
@@ -103,6 +125,8 @@ namespace F_klubben_stregsystem
 
 
             }
+
+
         } /*email contians to parts: local-part and domain part. They each need validation which can be read in the file.
                                            * My idea is to split the string in and validation on those to string. then put them back together.
                                            * A domain must also include a period(punktum)
@@ -118,35 +142,42 @@ namespace F_klubben_stregsystem
             }
             set
             {
+
                 userNotif = InsuffecientBalance;
             }
         }
 
 
-        public delegate string UserBalanceNotification(User user, decimal balance);
+        public delegate bool UserBalanceNotification(User user, decimal balance);
 
         private UserBalanceNotification userNotif;
 
-        /*How to do make the delegate function below?*/ /*maybe make the delegate a bool and return either true or false depending on whether the balance is under 50
+        /*maybe make the delegate a bool and return either true or false depending on whether the balance is under 50
                                                          By defualt have it be false and return true if under 50.
                                                          */
-        public string InsuffecientBalance(User user, decimal balance)
+        public bool InsuffecientBalance(User user, decimal balance)
         {
             balance = 50;
             string balanceNotif = " ";
             if (user.Balance < balance)
             {
                 balanceNotif = $"{user.firstName} Balance under 50 kr.";
-                return balanceNotif;
+                return true;
             }
-            return balanceNotif;
+            return false;
         }
 
+
+        public void getHashEqualsMethod()
+        {
+
+        }
 
         public override string ToString()
         {
-            return $"{firstName} {lastName} {userName} {email}";
+            return $"{firstName} {lastName} {userName} {email} {ID}";
         }
+
 
     }
 }

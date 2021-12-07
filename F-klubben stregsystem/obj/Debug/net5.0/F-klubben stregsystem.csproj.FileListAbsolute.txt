@@ -14,3 +14,19 @@ C:\Users\owend\source\repos\F-klubben stregsystem\F-klubben stregsystem\obj\Debu
 C:\Users\owend\source\repos\F-klubben stregsystem\F-klubben stregsystem\obj\Debug\net5.0\ref\F-klubben stregsystem.dll
 C:\Users\owend\source\repos\F-klubben stregsystem\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.pdb
 C:\Users\owend\source\repos\F-klubben stregsystem\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.genruntimeconfig.cache
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.csproj.AssemblyReference.cache
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.AssemblyInfoInputs.cache
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.AssemblyInfo.cs
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.csproj.CoreCompileInputs.cache
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.dll
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\ref\F-klubben stregsystem.dll
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.pdb
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\F-klubben stregsystem.exe
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\F-klubben stregsystem.deps.json
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\F-klubben stregsystem.runtimeconfig.json
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\F-klubben stregsystem.runtimeconfig.dev.json
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\F-klubben stregsystem.dll
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\ref\F-klubben stregsystem.dll
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\F-klubben stregsystem.pdb
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.genruntimeconfig.cache
