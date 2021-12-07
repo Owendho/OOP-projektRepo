@@ -107,13 +107,39 @@ namespace F_klubben_stregsystem
                                            * My idea is to split the string in and validation on those to string. then put them back together.
                                            * A domain must also include a period(punktum)
                                            */
-        public decimal Balance { get; set; }
+        
 
-        delegate void UserBalanceNotification(User user, decimal balance);
-
-        public void InsuffecientBalance(UserBalanceNotification userbnotif)
+        private decimal _balance;
+        public decimal Balance
         {
+            get
+            {
+                return _balance;
+            }
+            set
+            {
+                userNotif = InsuffecientBalance;
+            }
+        }
 
+
+        public delegate string UserBalanceNotification(User user, decimal balance);
+
+        private UserBalanceNotification userNotif;
+
+        /*How to do make the delegate function below?*/ /*maybe make the delegate a bool and return either true or false depending on whether the balance is under 50
+                                                         By defualt have it be false and return true if under 50.
+                                                         */
+        public string InsuffecientBalance(User user, decimal balance)
+        {
+            balance = 50;
+            string balanceNotif = " ";
+            if (user.Balance < balance)
+            {
+                balanceNotif = $"{user.firstName} Balance under 50 kr.";
+                return balanceNotif;
+            }
+            return balanceNotif;
         }
 
 

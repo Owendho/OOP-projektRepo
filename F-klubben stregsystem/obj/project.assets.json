@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\owend\\source\\repos\\F-klubben stregsystem\\F-klubben stregsystem\\F-klubben stregsystem.csproj",
+      "projectUniqueName": "C:\\Users\\owend\\OneDrive\\Documents\\GitHub\\OOP-projektRepo\\F-klubben stregsystem\\F-klubben stregsystem.csproj",
       "projectName": "F-klubben stregsystem",
-      "projectPath": "C:\\Users\\owend\\source\\repos\\F-klubben stregsystem\\F-klubben stregsystem\\F-klubben stregsystem.csproj",
+      "projectPath": "C:\\Users\\owend\\OneDrive\\Documents\\GitHub\\OOP-projektRepo\\F-klubben stregsystem\\F-klubben stregsystem.csproj",
       "packagesPath": "C:\\Users\\owend\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\owend\\source\\repos\\F-klubben stregsystem\\F-klubben stregsystem\\obj\\",
+      "outputPath": "C:\\Users\\owend\\OneDrive\\Documents\\GitHub\\OOP-projektRepo\\F-klubben stregsystem\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\owend\\AppData\\Roaming\\NuGet\\NuGet.Config",
