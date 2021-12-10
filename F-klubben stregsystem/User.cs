@@ -148,23 +148,23 @@ namespace F_klubben_stregsystem
         }
 
 
-        public delegate bool UserBalanceNotification(User user, decimal balance);
+        public delegate string UserBalanceNotification(User user, decimal balance);
 
         private UserBalanceNotification userNotif;
 
         /*maybe make the delegate a bool and return either true or false depending on whether the balance is under 50
                                                          By defualt have it be false and return true if under 50.
                                                          */
-        public bool InsuffecientBalance(User user, decimal balance)
+        public string InsuffecientBalance(User user, decimal balance)
         {
             balance = 50;
             string balanceNotif = " ";
             if (user.Balance < balance)
             {
                 balanceNotif = $"{user.firstName} Balance under 50 kr.";
-                return true;
+                return balanceNotif;
             }
-            return false;
+            return balanceNotif;
         }
 
 
