@@ -10,23 +10,26 @@ namespace F_klubben_stregsystem
 
     class Transaction
     {
-        public Transaction(string User, string Date, int Amount)
+        public Transaction(User _User, int Amount)
         {
-
+            user = _User;
+            amount = Amount;
+            id++;
         }
 
-        public int id { get; set; }
-        public string user { get; set; }
+        public static int id { get; set; }
+        public User user { get; set; }
 
         /*Maybe use datetime object*/
-        public string date { get; set; }
+        public DateTime date = DateTime.Now;
 
         public int amount { get; set; }
         public override string ToString()
         {
-            return $"";
+            return $"{id} {user} {amount} {date}";
 
         }
+
         public void Execute()
         {
 

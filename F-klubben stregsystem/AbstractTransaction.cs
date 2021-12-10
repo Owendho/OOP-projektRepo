@@ -8,17 +8,26 @@ namespace F_klubben_stregsystem
 {
     abstract class AbstractTransaction
     {
-        public int id { get; set; }
+        AbstractTransaction(string User, int Amount)
+        {
+            user = User;
+            amount = Amount;
+            id++;
+        }
+        public static int id { get; set; }
         public string user { get; set; }
 
         /*Maybe use datetime object*/
-        public string date { get; set; }
+        DateTime date = DateTime.Now;
 
         public int amount { get; set; }
 
-        void Execute()
+        public override string ToString()
         {
-
+            return $"{id} {user} {amount} {date}";
         }
+
+        public abstract void Execute();
+
     }
 }

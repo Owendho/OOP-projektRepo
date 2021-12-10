@@ -12,12 +12,13 @@ namespace F_klubben_stregsystem
         {
             name = Name;
             price = Price;
-            ID = ID + 1;
+            id++;
             active = true;
+            canBeBoughtOnCredit = false;
         }
 
 
-        public int ID { get; set; }
+        public static int id { get; set; }
         public string name { get; set; }
         public int price { get; set; }
         public bool active { get; set; }
@@ -27,10 +28,10 @@ namespace F_klubben_stregsystem
 
         public override string ToString()
         {
-            return $"{ID} {name} {price}";
+            return $"{id} {name} {price}";
         }
 
-        /*Remove functions*/
+
 
         /*Maybe not have it be a bool*/
         public bool isProductActive()
@@ -46,15 +47,6 @@ namespace F_klubben_stregsystem
             return active;
         }
 
-        public string productCanBeboughOnCredit(User user)
-        {
-            string productAlert = "";
-            if(user.Balance < 50)
-            {
-                productAlert = "Insuffiecient money to buy this product";
-            }
 
-            return productAlert;
-        }
     }
 }

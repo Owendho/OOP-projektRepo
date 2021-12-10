@@ -9,14 +9,14 @@ namespace F_klubben_stregsystem
 {
     class User : IComparable
     {
-        public User(string FirstName, string LastName, string UserName, string Email, decimal balance, int id)
+        public User(string FirstName, string LastName, string UserName, string Email, decimal balance)
         {
             firstName = FirstName;
             lastName = LastName;
             userName = UserName;
             email = Email;
             Balance = balance;
-            ID = id;
+            id++;
 
         }
 
@@ -27,7 +27,7 @@ namespace F_klubben_stregsystem
                 return 1;
             }
 
-            User testUser = new User(firstName, lastName, userName, email, Balance, ID);
+            User testUser = new User(firstName, lastName, userName, email, Balance);
 
             if (testUser != null)
             {
@@ -41,7 +41,7 @@ namespace F_klubben_stregsystem
         }
 
         private string _userName, _email, _firstname, _lastname;
-        private int ID { get; set; }
+        public static int id { get; set; }
 
         public string firstName
         {
@@ -133,24 +133,11 @@ namespace F_klubben_stregsystem
                                            */
         
 
-        private decimal _balance;
-        public decimal Balance
-        {
-            get
-            {
-                return _balance;
-            }
-            set
-            {
 
-                userNotif = InsuffecientBalance;
-            }
-        }
-
+        public decimal Balance { get; set; }
 
         public delegate string UserBalanceNotification(User user, decimal balance);
 
-        private UserBalanceNotification userNotif;
 
         /*maybe make the delegate a bool and return either true or false depending on whether the balance is under 50
                                                          By defualt have it be false and return true if under 50.
@@ -167,7 +154,7 @@ namespace F_klubben_stregsystem
             return balanceNotif;
         }
 
-
+        /*Work on this later*/
         public void getHashEqualsMethod()
         {
 
@@ -175,7 +162,7 @@ namespace F_klubben_stregsystem
 
         public override string ToString()
         {
-            return $"{firstName} {lastName} {userName} {email} {ID}";
+            return $"{firstName} {lastName} {userName} {email} {id}";
         }
 
 
