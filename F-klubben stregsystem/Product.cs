@@ -8,7 +8,7 @@ namespace F_klubben_stregsystem
 {
     class Product
     {
-        public Product(string Name, int Price)
+        public Product(string Name, decimal Price)
         {
             name = Name;
             price = Price;
@@ -20,7 +20,7 @@ namespace F_klubben_stregsystem
 
         public static int id { get; set; }
         public string name { get; set; }
-        public int price { get; set; }
+        public decimal price { get; set; }
         public bool active { get; set; }
 
         public bool canBeBoughtOnCredit { get; set; }

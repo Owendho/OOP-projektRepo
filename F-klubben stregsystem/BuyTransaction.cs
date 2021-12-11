@@ -8,7 +8,7 @@ namespace F_klubben_stregsystem
 {
     class BuyTransaction : Transaction
     {
-        BuyTransaction(User _User, int Amount, Product _Product) : base(_User, Amount)
+        public BuyTransaction(User _User, decimal Amount, Product _Product) : base(_User, Amount)
         {
             amount = Amount;
             product = _Product;
@@ -27,6 +27,6 @@ namespace F_klubben_stregsystem
         }
 
         /*Create InsufficientCreditsException exception here*/
-
+        
     }
 }

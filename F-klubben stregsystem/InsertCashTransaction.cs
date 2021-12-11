@@ -8,9 +8,8 @@ namespace F_klubben_stregsystem
 {
     class InsertCashTransaction : Transaction
     {
-        InsertCashTransaction(User _User, int Amount) : base(_User, Amount)
+        public InsertCashTransaction(User _User, decimal Amount) : base(_User, Amount)
         {
-
         }
 
         public override string ToString()

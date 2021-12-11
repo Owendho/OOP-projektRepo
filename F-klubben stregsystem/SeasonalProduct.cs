@@ -8,7 +8,7 @@ namespace F_klubben_stregsystem
 {
     class SeasonalProduct: Product
     {
-        public SeasonalProduct(string Name, int Price) : base(Name, Price)
+        public SeasonalProduct(string Name, decimal Price) : base(Name, Price)
         {
 
         }

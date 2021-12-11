@@ -10,7 +10,7 @@ namespace F_klubben_stregsystem
 
     class Transaction
     {
-        public Transaction(User _User, int Amount)
+        public Transaction(User _User, decimal Amount)
         {
             user = _User;
             amount = Amount;
@@ -23,7 +23,7 @@ namespace F_klubben_stregsystem
         /*Maybe use datetime object*/
         public DateTime date = DateTime.Now;
 
-        public int amount { get; set; }
+        public decimal amount { get; set; }
         public override string ToString()
         {
             return $"{id} {user} {amount} {date}";
