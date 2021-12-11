@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace F_klubben_stregsystem
 {
-    /*make abstract class instead of interface to include the constructer*/
+    /*make abstract class instead of interface to include the constructor*/
     interface Trans
     {
         public int id { get; set; }

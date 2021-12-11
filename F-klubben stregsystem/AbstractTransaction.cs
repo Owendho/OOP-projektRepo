@@ -27,7 +27,10 @@ namespace F_klubben_stregsystem
             return $"{id} {user} {amount} {date}";
         }
 
-        public abstract void Execute();
+        public void Execute()
+        {
+
+        }
 
     }
 }

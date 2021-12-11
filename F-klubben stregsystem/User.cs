@@ -131,8 +131,6 @@ namespace F_klubben_stregsystem
                                            * My idea is to split the string in and validation on those to string. then put them back together.
                                            * A domain must also include a period(punktum)
                                            */
-        
-
 
         public decimal Balance { get; set; }
 
