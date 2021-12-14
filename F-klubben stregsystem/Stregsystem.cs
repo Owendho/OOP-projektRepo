@@ -16,11 +16,12 @@ namespace F_klubben_stregsystem
         public delegate void UserBalanceNotification(User user, decimal balanace);
 
 
+
         private List<Transaction> doneTransactions = new List<Transaction>();
         private List<Product> products;
         private List<User> users;
-        
 
+        private ILogger fileLog = new FileLog("Logfile.txt");
 
 
         public BuyTransaction BuyProduct(User user, Product product)
@@ -44,7 +45,9 @@ namespace F_klubben_stregsystem
             {
                 UserbalanceW.Invoke(user, user.Balance);
                 doneTransactions.Add(transaction);
+
             }
+            fileLog.LogTransaction(transaction);
         }
 
         public Product getProductByID()
