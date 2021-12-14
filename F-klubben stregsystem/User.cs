@@ -57,6 +57,7 @@ namespace F_klubben_stregsystem
                 _firstname = value;
             }
         }
+
         public string lastName
         {
             get
@@ -134,23 +135,26 @@ namespace F_klubben_stregsystem
 
         public decimal Balance { get; set; }
 
-        public delegate string UserBalanceNotification(User user, decimal balance);
+        public delegate void UserBalanceNotification(User user, decimal balance);
 
 
         /*maybe make the delegate a bool and return either true or false depending on whether the balance is under 50
                                                          By defualt have it be false and return true if under 50.
-                                                         */
-        public string InsuffecientBalance(User user, decimal balance)
+                  
+         */
+        /*
+        public void InsuffecientBalance(UserBalanceNotification userBalanceNotification)
         {
+            userBalanceNotification(, )
             balance = 50;
             string balanceNotif = " ";
             if (user.Balance < balance)
             {
                 balanceNotif = $"{user.firstName} Balance under 50 kr.";
-                return balanceNotif;
             }
-            return balanceNotif;
+
         }
+        */
 
         /*Work on this later*/
         public void getHashEqualsMethod()
