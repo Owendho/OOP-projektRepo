@@ -19,8 +19,8 @@ namespace F_klubben_stregsystem
         private List<Transaction> doneTransactions = new List<Transaction>();
         private List<Product> products;
         private List<User> users;
+        
 
-        //private readonly ILogger _logger;
 
 
         public BuyTransaction BuyProduct(User user, Product product)

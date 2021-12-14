@@ -20,8 +20,17 @@ namespace F_klubben_stregsystem
             string logString = log.ToString();
             if (File.Exists(_fileName))
             {
-                
-
+                using (StreamWriter file = new StreamWriter(_fileName, true))
+                {
+                    file.WriteLine(logString);
+                }
+            }
+            else
+            {
+                using (StreamWriter file = new StreamWriter(_fileName, true))
+                {
+                    file.WriteLine(logString);
+                }
             }
         }
     }
