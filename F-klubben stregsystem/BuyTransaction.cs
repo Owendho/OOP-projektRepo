@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace F_klubben_stregsystem
 {
-    class BuyTransaction : Transaction
+    public class BuyTransaction : Transaction
     {
         public BuyTransaction(User _User, decimal Amount, Product _Product) : base(_User, Amount)
         {
@@ -23,10 +23,12 @@ namespace F_klubben_stregsystem
 
         public new void Execute()
         {
+            if (user.Balance < 50)
+            {
+                throw new InsufficientCreditsException($"{user} has insufficient credits for " + product.name );
+            }
             user.Balance -= product.price;
         }
-
-        /*Create InsufficientCreditsException exception here*/
         
     }
 }

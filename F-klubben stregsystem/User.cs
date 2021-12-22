@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace F_klubben_stregsystem
 {
-    class User : IComparable
+    public class User : IComparable
     {
         public User(string FirstName, string LastName, string UserName, string Email, decimal balance)
         {
@@ -52,7 +52,7 @@ namespace F_klubben_stregsystem
             set
             {
                 if (value == null)
-                    throw new NullReferenceException();
+                    throw new ArgumentNullException();
 
                 _firstname = value;
             }
@@ -67,13 +67,11 @@ namespace F_klubben_stregsystem
             set
             {
                 if (value == null)
-                    throw new NullReferenceException();
+                    throw new ArgumentNullException();
                 _lastname = value;
             }
         }
 
-
-        /*Validation in the get and set here. Username may contain numbers 0 - 9, small letters and underscore: [0-9], [a-z], og '_'*/
         public string userName
         {
             get
@@ -88,10 +86,7 @@ namespace F_klubben_stregsystem
                 {
                     throw new Exception("Invalid string");
                 }
-                else
-                {
-                    _userName = value;
-                }
+                _userName = value;
             }
         }
         public string email 
@@ -157,9 +152,9 @@ namespace F_klubben_stregsystem
         */
 
         /*Work on this later*/
-        public void getHashEqualsMethod()
+        public override int GetHashCode()
         {
-
+            return id.GetHashCode();
         }
 
         public override string ToString()

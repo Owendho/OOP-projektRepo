@@ -8,7 +8,7 @@ namespace F_klubben_stregsystem
 {
     
 
-    class Transaction
+    public class Transaction
     {
         public Transaction(User _User, decimal Amount)
         {

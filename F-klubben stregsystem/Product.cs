@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace F_klubben_stregsystem
 {
-    class Product
+    public class Product
     {
         public Product(string Name, decimal Price)
         {
@@ -19,7 +19,23 @@ namespace F_klubben_stregsystem
 
 
         public static int id { get; set; }
-        public string name { get; set; }
+
+        private string _name;
+        public string name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(name)); 
+                }
+                _name = value;
+            }
+        }
         public decimal price { get; set; }
         public bool active { get; set; }
 

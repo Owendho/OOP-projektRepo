@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.FileIO;
 //using Microsoft.Extensions.Logging;
-
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace F_klubben_stregsystem
 {
 
     /*Why have 2 delegates*/
+    
 
-
-    class Stregsystem 
+    class Stregsystem : IStregsystem
     {
         public delegate void UserBalanceNotification(User user, decimal balanace);
 
+        public Stregsystem()
+        {
+            CSVparser();
+        }
 
 
         private List<Transaction> doneTransactions = new List<Transaction>();
@@ -58,10 +64,17 @@ namespace F_klubben_stregsystem
         }
 
         /*Learn about func*/
-        public bool GetUsers(Func<User, bool> predicate )
+        public IEnumerable<User> GetUsers(Func<User, bool> predicate)
         {
-
-            return true;
+            List<User> userList = new List<User>();
+            foreach (User user in userList)
+            {
+                if (predicate(user))
+                {
+                    userList.Add(user);
+                }
+            }
+            return userList;
         }
 
         public User GetUserByUsername(string username)
@@ -75,26 +88,16 @@ namespace F_klubben_stregsystem
                     return foundUser;
                 }
             }
-            throw new Exception("Username not found"); /*Make this a user defined exception*/
-
-
+            throw new UsernameNotFoundException($"{username} cold not be found");
         }
 
         /*Maybe use linq for this*/
-        public Transaction GetTransaction(User user, int count)
+        public IEnumerable<Transaction> GetTransactions(User TransUser, int count)
         {
-            List<Transaction> foundTransactions = new List<Transaction>();
-
-            for (int i = 0; i < count; i++)
-            {
-                foreach (Transaction item in doneTransactions)
-                {
-                    
-                }
-            }
+            return doneTransactions.Where(t => t.user == TransUser).TakeLast(count).Reverse();
         }
 
-        public List<Product> ActiveProducts()
+        public IEnumerable<Product> ActiveProducts()
         {
             List<Product> activeProducts = new List<Product>();
             foreach (Product activeProduct in products)
@@ -106,5 +109,23 @@ namespace F_klubben_stregsystem
             }
             return activeProducts;
         }
+
+        public void CSVparser()
+        {
+
+            string filePath = @"C:\Users\owend\OneDrive\Documents\OOPprojekt\products.csv";
+            
+            using (TextFieldParser textfieldparser = new TextFieldParser(filePath))
+            {
+                textfieldparser.TextFieldType = FieldType.Delimited;
+                textfieldparser.SetDelimiters(",");
+                while (!textfieldparser.EndOfData)
+                {
+                    //Regex.Replace(textfieldparser, "<.*?>", String.Empty);
+                    string[] rows = textfieldparser.ReadFields();
+                }
+            }
+        }
+        
     }
 }
