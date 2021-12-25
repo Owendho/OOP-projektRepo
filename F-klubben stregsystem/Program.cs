@@ -7,9 +7,22 @@ namespace F_klubben_stregsystem
     {
         static void Main(string[] args)
         {
+
+            //StregsystemCLI stregsystemCLI = new StregsystemCLI();
+            Stregsystem stregsystem = new Stregsystem();
+
+            //stregsystem.CSVparser2();
+            //Console.ReadLine();
+
+            //stregsystem.CSVparserSemicolon();
+
+            stregsystem.CSVparserR();
+
+
+            /*
             int ID = 1;
             List<User> userList = new List<User>();
-            userList.Add(new User("hellothere", "byethere", "pr", "gitg@gmail.com", ID++) );
+            userList.Add(new User("hellothere", "byethere", "pr", "gitg@gmail.com", ID++));
 
             User user1 = new User("owen", "Mbo", "owenmo", "owendho200@gmail.com", ID++);
             user1.ToString();
@@ -20,6 +33,7 @@ namespace F_klubben_stregsystem
             Console.WriteLine(user2.ToString());
 
             userList.ForEach(Console.WriteLine);
+            */
         }
     }
 }

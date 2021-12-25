@@ -11,6 +11,12 @@ namespace F_klubben_stregsystem
     {
         Stregsystem stregsystem = new Stregsystem();
 
+        public StregsystemCLI()
+        {
+
+            stregsystem.CSVparser();
+        }
+
         private bool _running = true;
         public void DisplayUserNotFound(string username)
         {
@@ -39,7 +45,7 @@ namespace F_klubben_stregsystem
         }
         public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
         {
-
+            //Til multibuy
         }
         public void Close()
         {
@@ -47,7 +53,7 @@ namespace F_klubben_stregsystem
         }
         public void DisplayInsufficientCash(User user, Product product)
         {
-
+            Console.WriteLine($"Insufficient balance for {product.name} {product.price}. Current balance is {user.Balance}");
         }
         public void DisplayGeneralError(string errorString)
         {
@@ -74,12 +80,36 @@ namespace F_klubben_stregsystem
             {
                 Console.WriteLine(product.name);
             }
-
-
-
         }
 
         public void HandleInput()
+        {
+            ConsoleKeyInfo key = Console.ReadKey();
+
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    MoveUp();
+                    break;
+                case ConsoleKey.DownArrow:
+                    MoveDown();
+                    break;
+                case ConsoleKey.Escape:
+                    _running = false;
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+
+        public void MoveUp()
+        {
+
+        }
+
+        public void MoveDown()
         {
 
         }

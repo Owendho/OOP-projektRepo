@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "olwk9c0A0KwJ7loWWaQxMCj3tG3ePIeBKp+MASKV/AraJR6yOWM3niq637zbZWkcSVcsEx0mx1wxB8OACTZRpA==",
+  "dgSpecHash": "ZvFbS5KPqgdiP13ndjIDblNBxM2iVn3x9N0v0bUxSmQXLq1Dy+wCSsCrdtfVY8/CsKmtOj4PTucToDxB2+n7QA==",
   "success": true,
   "projectFilePath": "C:\\Users\\owend\\OneDrive\\Documents\\GitHub\\OOP-projektRepo\\F-klubben stregsystem\\F-klubben stregsystem.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\owend\\.nuget\\packages\\csvhelper\\27.2.1\\csvhelper.27.2.1.nupkg.sha512"
+  ],
   "logs": []
 }

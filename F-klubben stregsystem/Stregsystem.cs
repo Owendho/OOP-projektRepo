@@ -6,6 +6,10 @@ using Microsoft.VisualBasic.FileIO;
 //using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Text.RegularExpressions;
+using CsvHelper;
+using System.IO;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace F_klubben_stregsystem
 {
@@ -19,7 +23,7 @@ namespace F_klubben_stregsystem
 
         public Stregsystem()
         {
-            CSVparser();
+            //CSVparser();
         }
 
 
@@ -113,7 +117,7 @@ namespace F_klubben_stregsystem
         public void CSVparser()
         {
 
-            string filePath = @"C:\Users\owend\OneDrive\Documents\OOPprojekt\products.csv";
+            string filePath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
             
             using (TextFieldParser textfieldparser = new TextFieldParser(filePath))
             {
@@ -123,9 +127,75 @@ namespace F_klubben_stregsystem
                 {
                     //Regex.Replace(textfieldparser, "<.*?>", String.Empty);
                     string[] rows = textfieldparser.ReadFields();
+                    Console.WriteLine(rows[0]);
+                    
+                    //\F-klubben stregsystem\ProjectFiles\products.csv
+                }
+            }
+
+
+        }
+
+        public void CSVparser2()
+        {
+            string filepath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
+            using (StreamReader streamreader = new StreamReader(filepath))
+            {
+                using (CsvReader csvReader = new CsvReader(streamreader, CultureInfo.InvariantCulture))
+                {
+
+                    IEnumerable<dynamic> records = csvReader.GetRecords<dynamic>().ToList();
+
+                }
+
+            }
+        }
+
+        public void CSVparserSemicolon()
+        {
+            string filePath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
+            string[] lines = File.ReadAllLines(filePath);
+
+            string columnString; 
+            //Regex regex = new Regex(@"/[,;]$/, "" ");
+            foreach (string line in lines)
+            {
+                string[] columns = line.Split(';');
+                foreach (string column in columns)
+                {
+                    //columnString = Regex.Replace(column, @"/[,;]$/, "" ", string.Empty);
+                    //columnString = column.Trim(new char[] { ',',';'});
+                    //RemoveHTMLTags(columnString);
+                    //Console.WriteLine(columnString);
+                    Console.WriteLine(column);
+                    Console.ReadLine();
+                    // Do something
                 }
             }
         }
-        
+
+        public void CSVparserR()
+        {
+            string filePath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
+            string[] lines = File.ReadAllLines(filePath);
+
+            string lineString;
+            string removedHTMLtags;
+            //Regex regex = new Regex(@"/[,;]$/, "" ");
+            foreach (string line in lines)
+            {
+                //lineString = line.Trim(new char[] { ',',';'});
+                lineString = line.Replace(',', ' ');
+                removedHTMLtags = RemoveHTMLTags(lineString);
+                Console.WriteLine(lineString);
+                Console.ReadLine();
+            }
+        }
+
+        public string RemoveHTMLTags(string html)
+        {
+            return Regex.Replace(html, "<.*?>", string.Empty);
+        }
+
     }
 }

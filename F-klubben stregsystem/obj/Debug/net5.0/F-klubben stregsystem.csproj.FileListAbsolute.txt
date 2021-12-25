@@ -30,3 +30,4 @@ C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\b
 C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\ref\F-klubben stregsystem.dll
 C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\F-klubben stregsystem.pdb
 C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\obj\Debug\net5.0\F-klubben stregsystem.genruntimeconfig.cache
+C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\bin\Debug\net5.0\CsvHelper.dll
