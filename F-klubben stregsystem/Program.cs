@@ -11,11 +11,6 @@ namespace F_klubben_stregsystem
             //StregsystemCLI stregsystemCLI = new StregsystemCLI();
             Stregsystem stregsystem = new Stregsystem();
 
-            //stregsystem.CSVparser2();
-            //Console.ReadLine();
-
-            //stregsystem.CSVparserSemicolon();
-
             stregsystem.CSVparserR();
 
 
