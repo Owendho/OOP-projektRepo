@@ -82,12 +82,16 @@ namespace F_klubben_stregsystem
             }
         }
 
+        int index = 0;
+
         public void HandleInput()
         {
             ConsoleKeyInfo key = Console.ReadKey();
 
             switch (key.Key)
             {
+                case ConsoleKey.Enter:
+                    //SelectedProduct.Select();
                 case ConsoleKey.UpArrow:
                     MoveUp();
                     break;
@@ -104,14 +108,24 @@ namespace F_klubben_stregsystem
             }
         }
 
+        /*
+        private Product SelectedProduct
+        {
+            get
+            {
+                //return Products[index];
+            }
+        }
+        ^*/
+
         public void MoveUp()
         {
-
+            index--;
         }
 
         public void MoveDown()
         {
-
+            index++;
         }
     }
 }

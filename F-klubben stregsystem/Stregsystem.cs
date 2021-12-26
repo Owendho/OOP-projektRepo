@@ -114,88 +114,97 @@ namespace F_klubben_stregsystem
             return activeProducts;
         }
 
+
         public void CSVparser()
         {
-
-            string filePath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
-            
-            using (TextFieldParser textfieldparser = new TextFieldParser(filePath))
-            {
-                textfieldparser.TextFieldType = FieldType.Delimited;
-                textfieldparser.SetDelimiters(",");
-                while (!textfieldparser.EndOfData)
-                {
-                    //Regex.Replace(textfieldparser, "<.*?>", String.Empty);
-                    string[] rows = textfieldparser.ReadFields();
-                    Console.WriteLine(rows[0]);
-                    
-                    //\F-klubben stregsystem\ProjectFiles\products.csv
-                }
-            }
-
-
-        }
-
-        public void CSVparser2()
-        {
-            string filepath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
-            using (StreamReader streamreader = new StreamReader(filepath))
-            {
-                using (CsvReader csvReader = new CsvReader(streamreader, CultureInfo.InvariantCulture))
-                {
-
-                    IEnumerable<dynamic> records = csvReader.GetRecords<dynamic>().ToList();
-
-                }
-
-            }
-        }
-
-        public void CSVparserSemicolon()
-        {
-            string filePath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
+            string filePath = "../../../ProjectFiles/products.csv";
             string[] lines = File.ReadAllLines(filePath);
 
-            string columnString; 
-            //Regex regex = new Regex(@"/[,;]$/, "" ");
-            foreach (string line in lines)
-            {
-                string[] columns = line.Split(';');
-                foreach (string column in columns)
-                {
-                    //columnString = Regex.Replace(column, @"/[,;]$/, "" ", string.Empty);
-                    //columnString = column.Trim(new char[] { ',',';'});
-                    //RemoveHTMLTags(columnString);
-                    //Console.WriteLine(columnString);
-                    Console.WriteLine(column);
-                    Console.ReadLine();
-                    // Do something
-                }
-            }
-        }
-
-        public void CSVparserR()
-        {
-            string filePath = @"C:\Users\owend\OneDrive\Documents\GitHub\OOP-projektRepo\F-klubben stregsystem\ProjectFiles\products.csv";
-            string[] lines = File.ReadAllLines(filePath);
+            string name = Regex.Replace(lines[1], "<.*?>", "").Replace("\"", "");
 
             string lineString;
             string removedHTMLtags;
             //Regex regex = new Regex(@"/[,;]$/, "" ");
             foreach (string line in lines)
             {
+
                 //lineString = line.Trim(new char[] { ',',';'});
                 lineString = line.Replace(',', ' ');
                 removedHTMLtags = RemoveHTMLTags(lineString);
+                //Console.ReadLine();
+
+                Console.WriteLine(lineString);
+
+                Console.ReadLine();
+            }
+
+            /*
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i].Replace(',', ' ');
+                string name = Regex.Replace(lines[0], "<.*?>", "").Replace("\"", "");
                 Console.WriteLine(lineString);
                 Console.ReadLine();
             }
+            */
         }
+
+        
 
         public string RemoveHTMLTags(string html)
         {
             return Regex.Replace(html, "<.*?>", string.Empty);
         }
+
+        /*
+        private bool _running = true;
+        public void HandleInput()
+        {
+            ConsoleKeyInfo key = Console.ReadKey();
+
+            switch (key.Key)
+            {
+                case ConsoleKey.Enter:
+                    break;
+                case ConsoleKey.UpArrow:
+                    MoveUp();
+                    break;
+                case ConsoleKey.DownArrow:
+                    MoveDown();
+                    break;
+                case ConsoleKey.Escape:
+                    _running = false;
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+
+        int index = 0;
+
+        private Product SelectedProduct
+        {
+            get
+            {
+                return products[index];
+            }
+        }
+
+
+
+
+        public void MoveUp()
+        {
+            index--;
+        }
+
+        public void MoveDown()
+        {
+            index++;
+        }
+        */
 
     }
 }

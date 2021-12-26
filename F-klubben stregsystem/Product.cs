@@ -15,6 +15,7 @@ namespace F_klubben_stregsystem
             id++;
             active = true;
             canBeBoughtOnCredit = false;
+            Console.WriteLine(id);
         }
 
 
