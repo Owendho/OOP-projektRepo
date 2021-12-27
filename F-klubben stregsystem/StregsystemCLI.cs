@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace F_klubben_stregsystem
 {
-    class StregsystemCLI : IStregsystemCLI
+    class StregsystemCLI : IStregsystemUI
     {
         Stregsystem stregsystem = new Stregsystem();
 
+
+        public delegate void StregsystemEvent(string command);
+
+        public event StregsystemEvent CommandEntered;
         public StregsystemCLI()
         {
 

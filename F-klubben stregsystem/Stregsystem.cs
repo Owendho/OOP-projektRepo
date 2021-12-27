@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using CsvHelper;
 using System.IO;
 using System.Globalization;
-using System.Text.RegularExpressions;
+
 
 namespace F_klubben_stregsystem
 {
@@ -20,6 +20,7 @@ namespace F_klubben_stregsystem
     class Stregsystem : IStregsystem
     {
         public delegate void UserBalanceNotification(User user, decimal balanace);
+
 
         public Stregsystem()
         {
@@ -119,26 +120,37 @@ namespace F_klubben_stregsystem
         {
             string filePath = "../../../ProjectFiles/products.csv";
             string[] lines = File.ReadAllLines(filePath);
+            List<string> activeProducts = new List<string>();
 
-            string name = Regex.Replace(lines[1], "<.*?>", "").Replace("\"", "");
+            for (int i = 1; i < lines.Length; i++)
+            {
+                string name = Regex.Replace(lines[i], "<.*?>", "").Replace("\"", "");
+                if (name.LastIndexOf("1") != -1) 
+                {
+                    activeProducts.Add(name);
+                    Console.WriteLine(activeProducts);
+                    //Console.ReadLine();
+                }
 
+            }
+
+
+            //string name = Regex.Replace(product[1], "<.*?>", "").Replace("\"", "");
             string lineString;
             string removedHTMLtags;
+
             //Regex regex = new Regex(@"/[,;]$/, "" ");
+            /*
             foreach (string line in lines)
             {
 
                 //lineString = line.Trim(new char[] { ',',';'});
-                lineString = line.Replace(',', ' ');
-                removedHTMLtags = RemoveHTMLTags(lineString);
-                //Console.ReadLine();
-
-                Console.WriteLine(lineString);
+                //lineString = line.Replace(',', ' ');
+                removedHTMLtags = RemoveHtmlTags(line);
+    
 
                 Console.ReadLine();
             }
-
-            /*
             for (int i = 0; i < lines.Length; i++)
             {
                 lines[i].Replace(',', ' ');
@@ -149,13 +161,30 @@ namespace F_klubben_stregsystem
             */
         }
 
-        
 
+        private static bool HaveHtmlTags(string line)
+        {
+            return line.Contains('<');
+        }
+
+        private static string RemoveHtmlTags(string line)
+        {
+            string modifierLine = line;
+            do
+            {
+                modifierLine = modifierLine.Remove(modifierLine.IndexOf('<'), modifierLine.IndexOf('>') - modifierLine.IndexOf('<') + 1);
+            } while (HaveHtmlTags(modifierLine));
+
+            return modifierLine;
+        }
+
+
+        /*
         public string RemoveHTMLTags(string html)
         {
             return Regex.Replace(html, "<.*?>", string.Empty);
         }
-
+        */
         /*
         private bool _running = true;
         public void HandleInput()

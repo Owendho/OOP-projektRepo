@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace F_klubben_stregsystem
 {
-    public interface IStregsystemCLI
+    public interface IStregsystemUI
     {
+        //delegate void StregsystemEvent(string command);
         void DisplayUserNotFound(string username);
         void DisplayProductNotFound(string product);
         void DisplayUserInfo(User user); 
