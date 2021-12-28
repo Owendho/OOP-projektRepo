@@ -122,6 +122,7 @@ namespace F_klubben_stregsystem
             string[] lines = File.ReadAllLines(filePath);
             List<string> activeProducts = new List<string>();
 
+            //Fix parser to return active products
             for (int i = 1; i < lines.Length; i++)
             {
                 string name = Regex.Replace(lines[i], "<.*?>", "").Replace("\"", "");
