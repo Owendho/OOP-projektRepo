@@ -29,8 +29,8 @@ namespace F_klubben_stregsystem
 
 
         private List<Transaction> doneTransactions = new List<Transaction>();
-        private List<Product> products;
-        private List<User> users;
+        public List<Product> products;
+        public List<User> users;
 
         private ILogger fileLog = new FileLog("Logfile.txt");
 
@@ -61,12 +61,28 @@ namespace F_klubben_stregsystem
             fileLog.LogTransaction(transaction);
         }
 
-        public Product getProductByID()
+        public Product GetProductByID()
         {
             int id = 0;
             Product productID = products[id];
             return productID;
         }
+
+        public Product GetProductBYID(List<Product> products, string productID)
+        {
+            int parsedID = int.Parse(productID);
+            foreach (Product product in products)
+            {
+                if (parsedID == Product.id)
+                {
+                    return product;
+                }
+
+            }
+            throw new ProductNotFoundException($"Product with id: {productID} cold not be found");
+        }
+
+
 
         /*Learn about func*/
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)
@@ -121,15 +137,25 @@ namespace F_klubben_stregsystem
             string filePath = "../../../ProjectFiles/products.csv";
             string[] lines = File.ReadAllLines(filePath);
             List<string> activeProducts = new List<string>();
-
+            int slc;
+            string isActive = "";
             //Fix parser to return active products
             for (int i = 1; i < lines.Length; i++)
             {
                 string name = Regex.Replace(lines[i], "<.*?>", "").Replace("\"", "");
-                if (name.LastIndexOf("1") != -1) 
+                //replace æ,ø,å from product list
+
+                if (name.Length >= 2)         // if word is at least two characters long
+                {
+                    slc = name.Length - 2;    // access the second from last character
+                    isActive = name.Substring(slc,1);                            // ...
+                }
+
+
+                if (isActive == "1")
                 {
                     activeProducts.Add(name);
-                    Console.WriteLine(activeProducts);
+                    //Console.WriteLine(activeProducts[i]);
                     //Console.ReadLine();
                 }
 

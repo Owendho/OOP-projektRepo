@@ -9,29 +9,23 @@ namespace F_klubben_stregsystem
         {
 
             //StregsystemCLI stregsystemCLI = new StregsystemCLI();
-            Stregsystem stregsystem = new Stregsystem();
+            //Stregsystem stregsystem = new Stregsystem();
 
-            stregsystem.CSVparser();
-            StregsystemCLI stregsystemCLI = new StregsystemCLI();
+            //stregsystem.CSVparser();
+            //StregsystemCLI stregsystemCLI = new StregsystemCLI();
+
+            //StregsystemCommandParser commandParser = new StregsystemCommandParser();
+            //commandParser.ParseCommand("hello");
+
+            Stregsystem stregsystem = new Stregsystem();
+            StregsystemCLI ui = new StregsystemCLI(stregsystem);
+
+            ui.Start();
 
             //stregsystemCLI.Show();
 
 
-            /*
-            int ID = 1;
-            List<User> userList = new List<User>();
-            userList.Add(new User("hellothere", "byethere", "pr", "gitg@gmail.com", ID++));
 
-            User user1 = new User("owen", "Mbo", "owenmo", "owendho200@gmail.com", ID++);
-            user1.ToString();
-            Console.WriteLine(user1.ToString());
-
-            User user2 = new User("mb", "ya", "yooyoy", "owendh2001@gmail.com", ID++);
-
-            Console.WriteLine(user2.ToString());
-
-            userList.ForEach(Console.WriteLine);
-            */
         }
     }
 }

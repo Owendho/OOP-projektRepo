@@ -9,15 +9,14 @@ namespace F_klubben_stregsystem
 {
     class StregsystemCLI : IStregsystemUI
     {
-        Stregsystem stregsystem = new Stregsystem();
+        //Stregsystem stregsystem = new Stregsystem();
 
 
         public delegate void StregsystemEvent(string command);
 
         public event StregsystemEvent CommandEntered;
-        public StregsystemCLI()
+        public StregsystemCLI(Stregsystem stregsystem)
         {
-
             stregsystem.CSVparser();
         }
 
@@ -78,7 +77,7 @@ namespace F_klubben_stregsystem
           /*Maybe need to change some of the code*/
             List<Product> ActiveProducts = new List<Product>();
             Console.Clear();
-            IEnumerable<Product> products = stregsystem.ActiveProducts();
+            IEnumerable<Product> products = stregsystemref.ActiveProducts();
             ActiveProducts = products.ToList();
             foreach (Product product in ActiveProducts)
             {
@@ -88,48 +87,46 @@ namespace F_klubben_stregsystem
 
         int index = 0;
 
+        private Stregsystem stregsystemref;
+        StregsystemCommandParser commandParser = new StregsystemCommandParser();
+
         public void HandleInput()
         {
             ConsoleKeyInfo key = Console.ReadKey();
 
+            string inputcommand = Console.ReadLine();
+
             switch (key.Key)
             {
                 case ConsoleKey.Enter:
-                    //SelectedProduct.Select();
+                    Console.WriteLine(commandParser.ParseCommand(inputcommand));
+
+                    break;
                 case ConsoleKey.UpArrow:
-                    MoveUp();
+                    //MoveUp();
                     break;
                 case ConsoleKey.DownArrow:
-                    MoveDown();
+                    //MoveDown();
                     break;
                 case ConsoleKey.Escape:
-                    _running = false;
+                    //_running = false;
                     break;
 
                 default:
                     break;
 
             }
-        }
 
-        /*
-        private Product SelectedProduct
-        {
-            get
+            /*
+            private Product SelectedProduct
             {
-                //return Products[index];
+                get
+                {
+                    //return Products[index];
+                }
             }
-        }
-        ^*/
+            ^*/
 
-        public void MoveUp()
-        {
-            index--;
-        }
-
-        public void MoveDown()
-        {
-            index++;
         }
     }
 }

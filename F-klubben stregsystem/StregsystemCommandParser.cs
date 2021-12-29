@@ -8,8 +8,27 @@ namespace F_klubben_stregsystem
 {
     class StregsystemCommandParser
     {
-        public void ParseCommand(string command)
+        public StregsystemCommandParser()
         {
+            /*:activate og :deactivate (efterfulgt af produkt-id)*/
+            /*
+            adminCommands.Add($":active",(Product p) =>p.active == true);
+            adminCommands.Add(":deactivate", (Product p) => p.active == false);
+            adminCommands.Add(":quit", (StregsystemCLI s) => s.Close);
+            adminCommands.Add(":q", (StregsystemCLI s) => s.Close);
+
+            /*:crediton og :creditoff (efterfulgt af produkt-id)*/
+            /*
+            adminCommands.Add(":crediton", (Product p) => p.canBeBoughtOnCredit == true);
+            adminCommands.Add(":creditoff", (Product p) => p.canBeBoughtOnCredit == false);
+            /*:addcredits (efterfulgt af brugernavn og tal)*/
+
+        }
+
+        public string ParseCommand(string command)
+        {
+            //Maybe use switch statement
+            Product product;
             if (command.StartsWith(":"))
             {
                 /*Admin commands*/
@@ -17,11 +36,49 @@ namespace F_klubben_stregsystem
             string[] splitCommand = command.Split(" ");
             if (splitCommand.Length == 1)
             {
-                throw new CommandSyntaxError("invalid command");
-            }
-            string userName = splitCommand[0];
-            string productID = splitCommand[1];
+                /*der skal vises brugernavn, fulde navn og saldo
+                  ▪ en liste over tidligere køb, op til 10, sorteret, så sidste køb kommer øverst. 
+                ▪ Hvis saldo er under 50 kr skal brugeren informeres med tekst 
+                ▪ hvis brugernavnet ikke eksisterer, skal brugeren informeres
+                 */
+                string commandUsername = splitCommand[0];
 
+                //userCommand
+                try
+                {
+                    string foundUser = userCommand(commandUsername);
+                }
+                catch (UsernameNotFoundException m)
+                {
+                    return m.Message;
+                    throw;
+                }
+
+
+            }
+            
+            if (splitCommand.Length == 2)
+            {
+                string userName = splitCommand[0];
+                string productID = splitCommand[1];
+
+                try
+                {
+
+                    product = stregsystemRef.GetProductBYID(stregsystemRef.products, productID);
+                }
+                catch (ProductNotFoundException c)
+                {
+                    return c.Message;
+                    throw;
+                }
+            }
+
+
+            return " ";
+
+            
+            /*
             doesUserNameExist = UserNamexists(stregsystemReference.users, userName);
             IsValidProductID = ValidProductID(stregsystemReference.products, productID);
 
@@ -34,35 +91,41 @@ namespace F_klubben_stregsystem
             {
                 throw new InvalidProductIDException($"Username {userName} does not exist");
             }
-
-            ConsoleKeyInfo key = Console.ReadKey();
-            //How to decide whether to buy
-            switch (key.Key)
-            {
-                case ConsoleKey.Enter:
-                    break;
-                case ConsoleKey.UpArrow:
-
-                    break;
-                case ConsoleKey.DownArrow:
-
-                    break;
-                case ConsoleKey.Escape:
-
-                    break;
-
-                default:
-                    break;
-
-            }
+            */
 
         }
 
         private bool doesUserNameExist;
         private bool IsValidProductID;
         private IStregsystemUI IStregsystemReference;
-        private Stregsystem stregsystemReference;
-        private Dictionary<string, string> adminCommands;
+        private readonly Stregsystem stregsystemRef;
+        //private Dictionary<string, Func<string, bool>> adminCommands;
+        //private Dictionary<string, object> adminCommands;
+        private Dictionary<string, bool> adminCommands;
+
+
+        public string userCommand(string command)
+        {
+            //use struct
+            string userInfo;
+            try
+            {
+                User user = stregsystemRef.GetUserByUsername(command);
+                userInfo = user.ToString();
+                stregsystemRef.GetTransactions(user, 10);
+                
+                if (user.Balance < 50)
+                {
+                    return userInfo + "@\n" + "Balance is under 50 kr.";
+                }
+                return userInfo;
+            }
+            catch (UsernameNotFoundException e)
+            {
+                return e.Message;
+            }
+
+        }
 
         public bool UserNamexists(List<User> users, string userName)
         {
@@ -89,7 +152,11 @@ namespace F_klubben_stregsystem
             }
             return false;
         }
+
+
     }
+
+
 
     //syntax error when command does not have space between username and product id
 
