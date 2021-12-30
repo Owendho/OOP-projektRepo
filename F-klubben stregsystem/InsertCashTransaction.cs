@@ -21,7 +21,5 @@ namespace F_klubben_stregsystem
         {
             user.Balance += amount;
         }
-
-
     }
 }

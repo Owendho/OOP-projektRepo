@@ -125,16 +125,10 @@ namespace F_klubben_stregsystem
             }
 
 
-        } /*email contians to parts: local-part and domain part. They each need validation which can be read in the file.
-                                           * My idea is to split the string in and validation on those to string. then put them back together.
-                                           * A domain must also include a period(punktum)
-                                           */
+        } 
 
         public decimal Balance { get; set; }
 
-
-
-        /*Work on this later*/
         public override int GetHashCode()
         {
             return id.GetHashCode();

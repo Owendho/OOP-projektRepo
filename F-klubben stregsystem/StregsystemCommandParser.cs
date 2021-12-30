@@ -14,7 +14,6 @@ namespace F_klubben_stregsystem
             strCLI = stregsystemCli;
         }
 
-
         private Stregsystem str;
         private StregsystemCLI strCLI;
 
@@ -57,9 +56,10 @@ namespace F_klubben_stregsystem
                     product = str.GetProductBYID(commandSplit[1]);
                     product.canBeBoughtOnCredit = false;
                     break;
-                case ":addCredits":
+                case ":addcredits":
                     user = str.GetUserByUsername(commandSplit[1]);
                     str.AddCreditsToAccount(user, (Convert.ToDecimal(commandSplit[2])));
+
                     break;
                 case ":quit":
                     strCLI.Close();
@@ -87,6 +87,7 @@ namespace F_klubben_stregsystem
                         user = str.GetUserByUsername(userCMSplit[0]);
                         strCLI.DisplayUserInfo(user);
                         strCLI.DisplayTransactions(str.GetTransactions(user, 10));
+                        
                         if (user.Balance < 50)
                         {
                             strCLI.DisplayLowBalance(user);
@@ -103,6 +104,7 @@ namespace F_klubben_stregsystem
                         user = str.GetUserByUsername(userCMSplit[0]);
                         str.BuyProduct(user, str.GetProductBYID(userCMSplit[1]));
                         strCLI.DisplayUserBuysProduct(str.BuyProduct(user, str.GetProductBYID(userCMSplit[1])));
+
                     }
                     catch (UsernameNotFoundException e)
                     {
@@ -114,7 +116,7 @@ namespace F_klubben_stregsystem
                     }
                     catch(InsufficientCreditsException c)
                     {
-                        strCLI.DisplayGeneralError(c.Message);
+                        strCLI.DisplayInsufficientCash(user, str.GetProductBYID(userCMSplit[1]));
                     }
                     catch(IncorrectFormatException i)
                     {
@@ -151,12 +153,4 @@ namespace F_klubben_stregsystem
             }
         }
     }
-
-
-
-    //syntax error when command does not have space between username and product id
-
-    /*Parserfunktionalitet kunne implementers i Kla ssen StregsystemCommandParser.
-     *Denne klasse der kan oversætte kommandoer i tekststrenge, der skrives af brugeren, til funktionalitet i form af metodekald:
-     * */
 }

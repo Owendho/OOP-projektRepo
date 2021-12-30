@@ -17,15 +17,7 @@ namespace F_klubben_stregsystem
             stregsystem.CSVparserU();
         }
 
-
         public event StregsystemEvent CommandEntered;
-        
-        /*
-        public StregsystemCLI(Stregsystem stregsystem)
-        {
-            //stregsystem.CSVparser();
-        }
-        */
 
         private bool _running = true;
         public void DisplayUserNotFound(string username)
@@ -39,7 +31,8 @@ namespace F_klubben_stregsystem
         }
         public void DisplayUserInfo(User user) 
         {
-            Console.WriteLine(user.ToString() + user.Balance + " kr.");
+            //Console.Clear();
+            Console.WriteLine(user.ToString() + user.Balance + " kr."+"\n");
         }
         public void DisplayTooManyArgumentsError(string command)
         {
@@ -55,11 +48,7 @@ namespace F_klubben_stregsystem
         }
         public void DisplayUserBuysProductM(int count, List<BuyTransaction> transactions)
         {
-            //Til multibuy
-            for (int i = 0; i < count; i++)
-            {
-                Console.WriteLine(transactions[i].ToString());
-            }
+            Console.WriteLine(count + "X " + transactions[0].ToString() + "\n"  );
         }
 
         public void DisplayInsufficientCash(User user, Product product)
@@ -79,24 +68,23 @@ namespace F_klubben_stregsystem
 
         public void DisplayTransactions(IEnumerable<Transaction> transactions)
         {
-            foreach (IEnumerable<Transaction> transaction in transactions)
+            Transaction[] transactionArray = transactions.ToArray(); 
+            for (int i = 0; i < transactionArray.Length; i++)
             {
-                Console.WriteLine($"transactions: " + transaction.ToString());
+                Console.WriteLine($"transactions: " + transactionArray[i].ToString());
             }
 
         }
 
         public void Start()
         {
-            while (_running)
+            do
             {
-
                 Show();
-                //HandleInput();
-                this.consoleline = Console.ReadLine();
+                consoleline = Console.ReadLine();
                 Command = consoleline;
 
-            }
+            } while (_running);
 
         }
 
@@ -122,9 +110,7 @@ namespace F_klubben_stregsystem
 
         public void Show()
         {
-          /*Maybe need to change some of the code*/
             List<Product> ActiveProducts = new List<Product>();
-            Console.Clear();
             IEnumerable<Product> products = str.ActiveProducts();
             ActiveProducts = products.ToList();
             foreach (Product product in ActiveProducts)

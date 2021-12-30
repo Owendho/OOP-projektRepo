@@ -14,19 +14,15 @@ namespace F_klubben_stregsystem
             product = _Product;
         }
 
-        Product product { get; set; }
+        Product product;
 
         public override string ToString()
         {
-            return $" Buyiing product: {amount} {user} {date}";
+            return $"Buying product: {amount} {user} {date}";
         }
 
         public new void Execute()
         {
-            if (user.Balance < 50)
-            {
-                throw new InsufficientCreditsException($"{user} has insufficient credits for " + product.name );
-            }
             user.Balance -= product.price;
         }
         

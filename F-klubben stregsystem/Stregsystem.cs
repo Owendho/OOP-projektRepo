@@ -19,8 +19,6 @@ namespace F_klubben_stregsystem
 
     class Stregsystem : IStregsystem
     {
-        public delegate void UserBalanceNotification(User user, decimal balanace);
-
 
         public Stregsystem()
         {
@@ -36,19 +34,19 @@ namespace F_klubben_stregsystem
         private ILogger fileLog = new FileLog("Logfile.txt");
 
 
-        /*
-        public BuyTransaction BuyProduct(User user, Product product)
-        {
-            decimal amount = 0;
-            return new BuyTransaction(user, amount, product);
-        }
-        */
         public BuyTransaction BuyProduct(User user, Product product)
         {
             Transaction transaction = new Transaction(user, product.price);
             BuyTransaction buyTransaction = new BuyTransaction(user, product.price, product);
 
-            if (user.Balance == 0)
+            if (product.canBeBoughtOnCredit == true)
+            {
+                buyTransaction.Execute();
+                ExecuteTransaction(transaction);
+                return buyTransaction;
+            }
+
+            if (user.Balance < product.price)
             {
                 throw new InsufficientCreditsException($"User balance is {user.Balance}");
             }
@@ -72,7 +70,7 @@ namespace F_klubben_stregsystem
             User user = transaction.user;
             if (user.Balance < 50)
             {
-                UserbalanceW.Invoke(user, user.Balance);
+                UserbalanceW?.Invoke(user, user.Balance);
                 doneTransactions.Add(transaction);
 
             }
@@ -105,8 +103,6 @@ namespace F_klubben_stregsystem
         }
 
 
-
-        /*Learn about func*/
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)
         {
             List<User> userList = new List<User>();
@@ -131,9 +127,8 @@ namespace F_klubben_stregsystem
                     return foundUser;
                 }
             }
-            throw new UsernameNotFoundException($"{username} cold not be found");
+            throw new UsernameNotFoundException($"{username} could not be found");
         }
-
 
         public IEnumerable<Transaction> GetTransactions(User TransUser, int count)
         {
@@ -161,43 +156,15 @@ namespace F_klubben_stregsystem
             List<string> activeProducts = new List<string>();
             List<string> productsFromCSV = new List<string>();
 
-            int slc;
-            string isActive = "";
-            //Fix parser to return active products
             for (int i = 1; i < lines.Length; i++)
             {
                 string name = Regex.Replace(lines[i], "<.*?>", "").Replace("\"", "");
-                //replace æ,ø,å from product list
-
-
-                /*
-                if (name.Length >= 2)         
-                {
-                    slc = name.Length - 2;    
-                    isActive = name.Substring(slc,1);
-                }
-                */
-                //create objects here and add to product list
-                //string[] product = name.Split(';');
-                //Product newProduct = new Product() 
-                /*
-                if (isActive == "1")
-                {
-                    activeProducts.Add(name);
-                    //Console.WriteLine(activeProducts[i]);
-                    //Console.ReadLine();
-                }
-                */
-
                 productsFromCSV.Add(name);
-
             }
 
             return productsFromCSV;
 
         }
-
-
 
         public void createProductsFromCsv(List<string> csvProducts)
         {
@@ -214,7 +181,6 @@ namespace F_klubben_stregsystem
                     product.isactive = false;
 
                 products.Add(product);
-                //Console.WriteLine(products[i].ToString());
             }
         }
 
@@ -233,9 +199,6 @@ namespace F_klubben_stregsystem
             }
         }
 
-
-
-        //Have it be Ienum
         public List<BuyTransaction> MultiBuy(User user, int amount, Product product)
         {
             List<BuyTransaction> buyTransactions = new List<BuyTransaction>();
@@ -246,57 +209,6 @@ namespace F_klubben_stregsystem
             }
             return buyTransactions;
         }
-
-
-        /*
-        private bool _running = true;
-        public void HandleInput()
-        {
-            ConsoleKeyInfo key = Console.ReadKey();
-
-            switch (key.Key)
-            {
-                case ConsoleKey.Enter:
-                    break;
-                case ConsoleKey.UpArrow:
-                    MoveUp();
-                    break;
-                case ConsoleKey.DownArrow:
-                    MoveDown();
-                    break;
-                case ConsoleKey.Escape:
-                    _running = false;
-                    break;
-
-                default:
-                    break;
-
-            }
-        }
-
-        int index = 0;
-
-        private Product SelectedProduct
-        {
-            get
-            {
-                return products[index];
-            }
-        }
-
-
-
-
-        public void MoveUp()
-        {
-            index--;
-        }
-
-        public void MoveDown()
-        {
-            index++;
-        }
-        */
 
     }
 }

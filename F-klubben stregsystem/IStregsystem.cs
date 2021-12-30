@@ -17,6 +17,7 @@ namespace F_klubben_stregsystem
         IEnumerable<Transaction> GetTransactions(User TransUser, int count);
         IEnumerable<Product> ActiveProducts();
 
-        //event UserBalanceNotification UserbalanceW;
+        event UserBalanceNotification UserbalanceW;
     }
+    delegate void UserBalanceNotification(User user, decimal balanace);
 }

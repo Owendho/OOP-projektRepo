@@ -13,9 +13,8 @@ namespace F_klubben_stregsystem
 
         }
 
-        /*Make this date time*/
-        public double SeasonStartDate { get; set; }
-        public double SeasonEndDate { get; set; }
+        DateTime SeasonStartDate { get; set; }
+        DateTime SeasonEndDate { get; set; }
 
     }
 }

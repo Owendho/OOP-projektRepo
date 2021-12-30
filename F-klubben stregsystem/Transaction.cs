@@ -17,8 +17,6 @@ namespace F_klubben_stregsystem
             id++;
         }
 
-
-
         public static int id { get; set; }
         public User user { get; set; }
 
@@ -34,7 +32,6 @@ namespace F_klubben_stregsystem
 
         public virtual void Execute()
         {
-
         }
     }
 }

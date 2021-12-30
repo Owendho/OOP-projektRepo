@@ -17,7 +17,6 @@ namespace F_klubben_stregsystem
             canBeBoughtOnCredit = false;
         }
 
-
         private static int globalId = 1;
         public int id { get; set; }
 
@@ -42,29 +41,9 @@ namespace F_klubben_stregsystem
 
         public bool canBeBoughtOnCredit { get; set; }
 
-
         public override string ToString()
         {
             return $"{id} {name} {price}";
         }
-
-
-
-        /*Maybe not have it be a bool*/
-        /*
-        public bool isProductActive()
-        {
-            if (active == true)
-            {
-                active = false;
-            }
-            else
-            {
-                active = true;
-            }
-            return active;
-        }
-        */
-
     }
 }

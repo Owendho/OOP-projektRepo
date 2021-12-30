@@ -7,23 +7,12 @@ namespace F_klubben_stregsystem
     {
         static void Main(string[] args)
         {
-
-
-
             
             Stregsystem stregsystem = new Stregsystem();
             StregsystemCLI ui = new StregsystemCLI(stregsystem);
             StregsystemController sc = new StregsystemController(ui, stregsystem);
 
             ui.Start();
-            
-
-            //stregsystemCLI.Show();
-
-
-
-
-
         }
     }
 }
