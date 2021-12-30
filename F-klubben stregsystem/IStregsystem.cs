@@ -8,13 +8,14 @@ namespace F_klubben_stregsystem
 {
     interface IStregsystem
     {
-        InsertCashTransaction AddCreditsToAccount(User user, decimal amount);
+        void ExecuteTransaction(Transaction transaction);
 
         BuyTransaction BuyProduct(User user, Product product);
         User GetUserByUsername(string username);
         IEnumerable<User> GetUsers(Func<User, bool> predicate);
 
         IEnumerable<Transaction> GetTransactions(User TransUser, int count);
+        IEnumerable<Product> ActiveProducts();
 
         //event UserBalanceNotification UserbalanceW;
     }

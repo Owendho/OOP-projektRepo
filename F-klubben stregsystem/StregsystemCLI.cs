@@ -9,16 +9,23 @@ namespace F_klubben_stregsystem
 {
     class StregsystemCLI : IStregsystemUI
     {
-        //Stregsystem stregsystem = new Stregsystem();
 
-
-        public delegate void StregsystemEvent(string command);
-
-        public event StregsystemEvent CommandEntered;
         public StregsystemCLI(Stregsystem stregsystem)
         {
+            str = stregsystem;
             stregsystem.CSVparser();
+            stregsystem.CSVparserU();
         }
+
+
+        public event StregsystemEvent CommandEntered;
+        
+        /*
+        public StregsystemCLI(Stregsystem stregsystem)
+        {
+            //stregsystem.CSVparser();
+        }
+        */
 
         private bool _running = true;
         public void DisplayUserNotFound(string username)
@@ -32,7 +39,7 @@ namespace F_klubben_stregsystem
         }
         public void DisplayUserInfo(User user) 
         {
-            Console.WriteLine(user);
+            Console.WriteLine(user.ToString() + user.Balance + " kr.");
         }
         public void DisplayTooManyArgumentsError(string command)
         {
@@ -40,93 +47,102 @@ namespace F_klubben_stregsystem
         }
         public void DisplayAdminCommandNotFoundMessage(string adminCommand)
         {
-
+            Console.WriteLine($"{adminCommand} was not found");
         }
         public void DisplayUserBuysProduct(BuyTransaction transaction)
         {
             Console.WriteLine(transaction.ToString());
         }
-        public void DisplayUserBuysProduct(int count, BuyTransaction transaction)
+        public void DisplayUserBuysProductM(int count, List<BuyTransaction> transactions)
         {
             //Til multibuy
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine(transactions[i].ToString());
+            }
         }
-        public void Close()
-        {
 
-        }
         public void DisplayInsufficientCash(User user, Product product)
         {
             Console.WriteLine($"Insufficient balance for {product.name} {product.price}. Current balance is {user.Balance}");
         }
+
+        public void DisplayLowBalance(User user)
+        {
+            Console.WriteLine($"WARNING: user balance is {user.Balance}");
+        }
+
         public void DisplayGeneralError(string errorString)
         {
+            Console.WriteLine(errorString);
+        }
+
+        public void DisplayTransactions(IEnumerable<Transaction> transactions)
+        {
+            foreach (IEnumerable<Transaction> transaction in transactions)
+            {
+                Console.WriteLine($"transactions: " + transaction.ToString());
+            }
 
         }
+
         public void Start()
         {
-            do
+            while (_running)
             {
+
                 Show();
-                HandleInput();
-            } while (_running);
+                //HandleInput();
+                this.consoleline = Console.ReadLine();
+                Command = consoleline;
+
+            }
 
         }
+
+        public string consoleline { get; set; }
+        private string _command;
+
+        public string Command
+        {
+            get
+            {
+                return _command;
+            }
+            set
+            {
+                CommandEntered?.Invoke(value);
+                 _command = value;
+                 
+   
+            }
+        }
+
+        Stregsystem str;
 
         public void Show()
         {
           /*Maybe need to change some of the code*/
             List<Product> ActiveProducts = new List<Product>();
             Console.Clear();
-            IEnumerable<Product> products = stregsystemref.ActiveProducts();
+            IEnumerable<Product> products = str.ActiveProducts();
             ActiveProducts = products.ToList();
             foreach (Product product in ActiveProducts)
             {
-                Console.WriteLine(product.name);
+                Console.WriteLine(product.id + "." + product.name + " " + product.price);
             }
+            Console.WriteLine("\n");
         }
 
-        int index = 0;
-
-        private Stregsystem stregsystemref;
-        StregsystemCommandParser commandParser = new StregsystemCommandParser();
-
-        public void HandleInput()
+       
+        public void Close()
         {
-            ConsoleKeyInfo key = Console.ReadKey();
-
-            string inputcommand = Console.ReadLine();
-
-            switch (key.Key)
-            {
-                case ConsoleKey.Enter:
-                    Console.WriteLine(commandParser.ParseCommand(inputcommand));
-
-                    break;
-                case ConsoleKey.UpArrow:
-                    //MoveUp();
-                    break;
-                case ConsoleKey.DownArrow:
-                    //MoveDown();
-                    break;
-                case ConsoleKey.Escape:
-                    //_running = false;
-                    break;
-
-                default:
-                    break;
-
-            }
-
-            /*
-            private Product SelectedProduct
-            {
-                get
-                {
-                    //return Products[index];
-                }
-            }
-            ^*/
-
+            Environment.Exit(0);
         }
+
+
+
+        
     }
+
 }

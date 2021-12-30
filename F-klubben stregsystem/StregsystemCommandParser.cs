@@ -8,152 +8,148 @@ namespace F_klubben_stregsystem
 {
     class StregsystemCommandParser
     {
-        public StregsystemCommandParser()
+        public StregsystemCommandParser(StregsystemCLI stregsystemCli, Stregsystem stregsystem)
         {
-            /*:activate og :deactivate (efterfulgt af produkt-id)*/
-            /*
-            adminCommands.Add($":active",(Product p) =>p.active == true);
-            adminCommands.Add(":deactivate", (Product p) => p.active == false);
-            adminCommands.Add(":quit", (StregsystemCLI s) => s.Close);
-            adminCommands.Add(":q", (StregsystemCLI s) => s.Close);
-
-            /*:crediton og :creditoff (efterfulgt af produkt-id)*/
-            /*
-            adminCommands.Add(":crediton", (Product p) => p.canBeBoughtOnCredit == true);
-            adminCommands.Add(":creditoff", (Product p) => p.canBeBoughtOnCredit == false);
-            /*:addcredits (efterfulgt af brugernavn og tal)*/
-
+            str = stregsystem;
+            strCLI = stregsystemCli;
         }
 
-        public string ParseCommand(string command)
+
+        private Stregsystem str;
+        private StregsystemCLI strCLI;
+
+        public void ParseCommand(string command)
         {
-            //Maybe use switch statement
-            Product product;
+            commandType(command);
+        }
+
+        public void commandType(string command)
+        {
             if (command.StartsWith(":"))
             {
-                /*Admin commands*/
-            }
-            string[] splitCommand = command.Split(" ");
-            if (splitCommand.Length == 1)
+                adminCommands(command);
+            }   
+            else
             {
-                /*der skal vises brugernavn, fulde navn og saldo
-                  ▪ en liste over tidligere køb, op til 10, sorteret, så sidste køb kommer øverst. 
-                ▪ Hvis saldo er under 50 kr skal brugeren informeres med tekst 
-                ▪ hvis brugernavnet ikke eksisterer, skal brugeren informeres
-                 */
-                string commandUsername = splitCommand[0];
-
-                //userCommand
-                try
-                {
-                    string foundUser = userCommand(commandUsername);
-                }
-                catch (UsernameNotFoundException m)
-                {
-                    return m.Message;
-                    throw;
-                }
-
-
+                userCommands(command);
             }
-            
-            if (splitCommand.Length == 2)
-            {
-                string userName = splitCommand[0];
-                string productID = splitCommand[1];
-
-                try
-                {
-
-                    product = stregsystemRef.GetProductBYID(stregsystemRef.products, productID);
-                }
-                catch (ProductNotFoundException c)
-                {
-                    return c.Message;
-                    throw;
-                }
-            }
-
-
-            return " ";
-
-            
-            /*
-            doesUserNameExist = UserNamexists(stregsystemReference.users, userName);
-            IsValidProductID = ValidProductID(stregsystemReference.products, productID);
-
-            if (!doesUserNameExist)
-            {
-                throw new UsernameNotFoundException($"Username {userName} does not exist");
-            }
-
-            if (!IsValidProductID)
-            {
-                throw new InvalidProductIDException($"Username {userName} does not exist");
-            }
-            */
-
         }
-
-        private bool doesUserNameExist;
-        private bool IsValidProductID;
-        private IStregsystemUI IStregsystemReference;
-        private readonly Stregsystem stregsystemRef;
-        //private Dictionary<string, Func<string, bool>> adminCommands;
-        //private Dictionary<string, object> adminCommands;
-        private Dictionary<string, bool> adminCommands;
-
-
-        public string userCommand(string command)
+        private Product product;
+        private User user;
+        private void adminCommands(string admincommand)
         {
-            //use struct
-            string userInfo;
-            try
+            string[] commandSplit = admincommand.Split(' ');
+            switch (commandSplit[0])
             {
-                User user = stregsystemRef.GetUserByUsername(command);
-                userInfo = user.ToString();
-                stregsystemRef.GetTransactions(user, 10);
-                
-                if (user.Balance < 50)
-                {
-                    return userInfo + "@\n" + "Balance is under 50 kr.";
-                }
-                return userInfo;
-            }
-            catch (UsernameNotFoundException e)
-            {
-                return e.Message;
-            }
+                case ":activate":
+                    product = str.GetProductBYID(commandSplit[1]);
+                    product.isactive = true;
+                    break;
+                case ":deactivate":
+                    product = str.GetProductBYID(commandSplit[1]);
+                    product.isactive = false;
+                    break;
+                case ":crediton":
+                    product = str.GetProductBYID(commandSplit[1]);
+                    product.canBeBoughtOnCredit = true;
+                    break;
+                case ":creditoff":
+                    product = str.GetProductBYID(commandSplit[1]);
+                    product.canBeBoughtOnCredit = false;
+                    break;
+                case ":addCredits":
+                    user = str.GetUserByUsername(commandSplit[1]);
+                    str.AddCreditsToAccount(user, (Convert.ToDecimal(commandSplit[2])));
+                    break;
+                case ":quit":
+                    strCLI.Close();
+                    break;
+                case ":q":
+                    strCLI.Close();
+                    break;
 
+                default:
+                    strCLI.DisplayAdminCommandNotFoundMessage(admincommand);
+                    break;
+
+            }
         }
 
-        public bool UserNamexists(List<User> users, string userName)
+        private void userCommands(string userCommands)
         {
-            foreach (User user in users)
+            string[] userCMSplit = userCommands.Split(' ');
+
+            switch (userCMSplit.Length)
             {
-                if (userName == user.userName)
-                {
-                    return true;
-                }
-                
+                case 1:
+                    try
+                    {
+                        user = str.GetUserByUsername(userCMSplit[0]);
+                        strCLI.DisplayUserInfo(user);
+                        strCLI.DisplayTransactions(str.GetTransactions(user, 10));
+                        if (user.Balance < 50)
+                        {
+                            strCLI.DisplayLowBalance(user);
+                        }
+                    }
+                    catch (UsernameNotFoundException e)
+                    {
+                        strCLI.DisplayGeneralError(e.Message);
+                    }
+                    break;
+                case 2:
+                    try
+                    {
+                        user = str.GetUserByUsername(userCMSplit[0]);
+                        str.BuyProduct(user, str.GetProductBYID(userCMSplit[1]));
+                        strCLI.DisplayUserBuysProduct(str.BuyProduct(user, str.GetProductBYID(userCMSplit[1])));
+                    }
+                    catch (UsernameNotFoundException e)
+                    {
+                        strCLI.DisplayGeneralError(e.Message);
+                    }
+                    catch (ProductNotFoundException p)
+                    {
+                        strCLI.DisplayGeneralError(p.Message);
+                    }
+                    catch(InsufficientCreditsException c)
+                    {
+                        strCLI.DisplayGeneralError(c.Message);
+                    }
+                    catch(IncorrectFormatException i)
+                    {
+                        strCLI.DisplayGeneralError(i.Message);
+                    }
+                    break;
+                case 3:
+                    try
+                    {
+                        user = str.GetUserByUsername(userCMSplit[0]);
+                        str.MultiBuy(user, Convert.ToInt32(userCMSplit[1]), str.GetProductBYID(userCMSplit[2]));
+                        strCLI.DisplayUserBuysProductM(Convert.ToInt32(userCMSplit[1]), str.MultiBuy(user, Convert.ToInt32(userCMSplit[1]), str.GetProductBYID(userCMSplit[2])));
+                    }
+                    catch (UsernameNotFoundException e)
+                    {
+                        strCLI.DisplayGeneralError(e.Message);
+                    }
+                    catch (ProductNotFoundException p)
+                    {
+                        strCLI.DisplayGeneralError(p.Message);
+                    }
+                    catch (InsufficientCreditsException c)
+                    {
+                        strCLI.DisplayGeneralError(c.Message);
+                    }
+                    catch (IncorrectFormatException i)
+                    {
+                        strCLI.DisplayGeneralError(i.Message);
+                    }
+                    break;
+                default:
+                    strCLI.DisplayAdminCommandNotFoundMessage(userCommands);
+                    break;
             }
-            return false;
         }
-        public bool ValidProductID(List<Product> products, string productID)
-        {
-            int parsedID = int.Parse(productID);
-            foreach (Product product in products)
-            {
-                if (parsedID == Product.id)
-                {
-                    return true;
-                }
-
-            }
-            return false;
-        }
-
-
     }
 
 

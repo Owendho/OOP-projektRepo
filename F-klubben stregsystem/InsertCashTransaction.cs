@@ -17,7 +17,7 @@ namespace F_klubben_stregsystem
             return $" Inserting cash: {amount} {user} {date}";
         }
 
-        public new void Execute()
+        public override void Execute()
         {
             user.Balance += amount;
         }

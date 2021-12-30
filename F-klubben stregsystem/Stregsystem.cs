@@ -24,26 +24,44 @@ namespace F_klubben_stregsystem
 
         public Stregsystem()
         {
-            //CSVparser();
+            CSVparser();
+            createProductsFromCsv(CSVparser());
         }
 
 
         private List<Transaction> doneTransactions = new List<Transaction>();
-        public List<Product> products;
-        public List<User> users;
+        public List<Product> products = new List<Product>();
+        public List<User> users = new List<User>();
 
         private ILogger fileLog = new FileLog("Logfile.txt");
 
 
+        /*
         public BuyTransaction BuyProduct(User user, Product product)
         {
             decimal amount = 0;
             return new BuyTransaction(user, amount, product);
         }
-
-        public InsertCashTransaction AddCreditsToAccount(User user, decimal amount)
+        */
+        public BuyTransaction BuyProduct(User user, Product product)
         {
-            return new InsertCashTransaction(user, amount);
+            Transaction transaction = new Transaction(user, product.price);
+            BuyTransaction buyTransaction = new BuyTransaction(user, product.price, product);
+
+            if (user.Balance == 0)
+            {
+                throw new InsufficientCreditsException($"User balance is {user.Balance}");
+            }
+            buyTransaction.Execute();
+            ExecuteTransaction(transaction);
+            return buyTransaction;
+        }
+
+        public void AddCreditsToAccount(User user, decimal amount)
+        {
+
+            InsertCashTransaction insertCash = new InsertCashTransaction(user, amount);
+            insertCash.Execute();
         }
 
         public event UserBalanceNotification UserbalanceW;
@@ -68,12 +86,16 @@ namespace F_klubben_stregsystem
             return productID;
         }
 
-        public Product GetProductBYID(List<Product> products, string productID)
+        public Product GetProductBYID(string productID)
         {
-            int parsedID = int.Parse(productID);
+            int parsedID = Convert.ToInt32(productID);
+            if (parsedID == 0)
+            {
+                throw new IncorrectFormatException($"{productID} is not a number");
+            }
             foreach (Product product in products)
             {
-                if (parsedID == Product.id)
+                if (parsedID == product.id)
                 {
                     return product;
                 }
@@ -112,7 +134,7 @@ namespace F_klubben_stregsystem
             throw new UsernameNotFoundException($"{username} cold not be found");
         }
 
-        /*Maybe use linq for this*/
+
         public IEnumerable<Transaction> GetTransactions(User TransUser, int count)
         {
             return doneTransactions.Where(t => t.user == TransUser).TakeLast(count).Reverse();
@@ -123,7 +145,7 @@ namespace F_klubben_stregsystem
             List<Product> activeProducts = new List<Product>();
             foreach (Product activeProduct in products)
             {
-                if (activeProduct.active == true)
+                if (activeProduct.isactive == true)
                 {
                     activeProducts.Add(activeProduct);
                 }
@@ -132,11 +154,13 @@ namespace F_klubben_stregsystem
         }
 
 
-        public void CSVparser()
+        public List<string> CSVparser()
         {
             string filePath = "../../../ProjectFiles/products.csv";
             string[] lines = File.ReadAllLines(filePath);
             List<string> activeProducts = new List<string>();
+            List<string> productsFromCSV = new List<string>();
+
             int slc;
             string isActive = "";
             //Fix parser to return active products
@@ -145,73 +169,85 @@ namespace F_klubben_stregsystem
                 string name = Regex.Replace(lines[i], "<.*?>", "").Replace("\"", "");
                 //replace æ,ø,å from product list
 
-                if (name.Length >= 2)         // if word is at least two characters long
+
+                /*
+                if (name.Length >= 2)         
                 {
-                    slc = name.Length - 2;    // access the second from last character
-                    isActive = name.Substring(slc,1);                            // ...
+                    slc = name.Length - 2;    
+                    isActive = name.Substring(slc,1);
                 }
-
-
+                */
+                //create objects here and add to product list
+                //string[] product = name.Split(';');
+                //Product newProduct = new Product() 
+                /*
                 if (isActive == "1")
                 {
                     activeProducts.Add(name);
                     //Console.WriteLine(activeProducts[i]);
                     //Console.ReadLine();
                 }
+                */
+
+                productsFromCSV.Add(name);
 
             }
 
+            return productsFromCSV;
 
-            //string name = Regex.Replace(product[1], "<.*?>", "").Replace("\"", "");
-            string lineString;
-            string removedHTMLtags;
+        }
 
-            //Regex regex = new Regex(@"/[,;]$/, "" ");
-            /*
-            foreach (string line in lines)
+
+
+        public void createProductsFromCsv(List<string> csvProducts)
+        {
+            string[] stringSplit;
+            string[] csvArray = csvProducts.ToArray();
+
+            for (int i = 0; i < csvProducts.Count; i++)
             {
+                stringSplit = csvArray[i].Split(';');
+                Product product = new Product(stringSplit[1], Convert.ToDecimal(stringSplit[2]));
+                if (stringSplit[3] == "1")
+                    product.isactive = true;
+                else
+                    product.isactive = false;
 
-                //lineString = line.Trim(new char[] { ',',';'});
-                //lineString = line.Replace(',', ' ');
-                removedHTMLtags = RemoveHtmlTags(line);
-    
-
-                Console.ReadLine();
+                products.Add(product);
+                //Console.WriteLine(products[i].ToString());
             }
-            for (int i = 0; i < lines.Length; i++)
+        }
+
+        public void CSVparserU()
+        {
+            string filePath = "../../../ProjectFiles/users.csv";
+            string[] lines = File.ReadAllLines(filePath);
+
+            for (int i = 1; i < lines.Length; i++)
             {
-                lines[i].Replace(',', ' ');
-                string name = Regex.Replace(lines[0], "<.*?>", "").Replace("\"", "");
-                Console.WriteLine(lineString);
-                Console.ReadLine();
+                string[] user = lines[i].Split(',');
+
+                User userCSV = new User(user[1], user[2], user[3], user[5], Convert.ToDecimal(user[4]));
+                users.Add(userCSV);
+
             }
-            */
         }
 
 
-        private static bool HaveHtmlTags(string line)
-        {
-            return line.Contains('<');
-        }
 
-        private static string RemoveHtmlTags(string line)
+        //Have it be Ienum
+        public List<BuyTransaction> MultiBuy(User user, int amount, Product product)
         {
-            string modifierLine = line;
-            do
+            List<BuyTransaction> buyTransactions = new List<BuyTransaction>();
+            for (int i = 0; i < amount; i++)
             {
-                modifierLine = modifierLine.Remove(modifierLine.IndexOf('<'), modifierLine.IndexOf('>') - modifierLine.IndexOf('<') + 1);
-            } while (HaveHtmlTags(modifierLine));
+                buyTransactions.Add(BuyProduct(user, product));
 
-            return modifierLine;
+            }
+            return buyTransactions;
         }
 
 
-        /*
-        public string RemoveHTMLTags(string html)
-        {
-            return Regex.Replace(html, "<.*?>", string.Empty);
-        }
-        */
         /*
         private bool _running = true;
         public void HandleInput()

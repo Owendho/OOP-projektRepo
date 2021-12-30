@@ -12,14 +12,14 @@ namespace F_klubben_stregsystem
         {
             name = Name;
             price = Price;
-            id++;
-            active = true;
+            id = globalId++;
+            isactive = true;
             canBeBoughtOnCredit = false;
-            Console.WriteLine(id);
         }
 
 
-        public static int id { get; set; }
+        private static int globalId = 1;
+        public int id { get; set; }
 
         private string _name;
         public string name
@@ -38,7 +38,7 @@ namespace F_klubben_stregsystem
             }
         }
         public decimal price { get; set; }
-        public bool active { get; set; }
+        public bool isactive { get; set; }
 
         public bool canBeBoughtOnCredit { get; set; }
 
@@ -51,6 +51,7 @@ namespace F_klubben_stregsystem
 
 
         /*Maybe not have it be a bool*/
+        /*
         public bool isProductActive()
         {
             if (active == true)
@@ -63,7 +64,7 @@ namespace F_klubben_stregsystem
             }
             return active;
         }
-
+        */
 
     }
 }

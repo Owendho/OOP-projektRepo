@@ -8,33 +8,31 @@ namespace F_klubben_stregsystem
 {
     class StregsystemController
     {
-        StregsystemCommandParser commandParser = new StregsystemCommandParser();
-        
+        public StregsystemController(StregsystemCLI stregsystemCli, Stregsystem stregsystem)
+        {
+            //parser = commandParser;
+            strCLI = stregsystemCli;
+            str = stregsystem;
+            stregsystemCli.CommandEntered += ExecuteCommand;
+
+        }
+
+
+        StregsystemCLI strCLI;
+        Stregsystem str;
+        //StregsystemCommandParser parser;
+
+        public void ExecuteCommand(string command)
+        {
+            StregsystemCommandParser commandParser = new StregsystemCommandParser(strCLI, str);
+            commandParser.commandType(command);
+        }
         public void HandleInput()
         {
-            ConsoleKeyInfo key = Console.ReadKey();
 
-            string inputcommand= Console.ReadLine();
+            string inputcommand = Console.ReadLine();
+            //commandParser.ParseCommand(inputcommand);
 
-            switch (key.Key)
-            {
-                case ConsoleKey.Enter:
-                    commandParser.ParseCommand(inputcommand);
-                    break;
-                case ConsoleKey.UpArrow:
-                    //MoveUp();
-                    break;
-                case ConsoleKey.DownArrow:
-                    //MoveDown();
-                    break;
-                case ConsoleKey.Escape:
-                    //_running = false;
-                    break;
-
-                default:
-                    break;
-
-            }
         }
     }
     /*StregsystemController opdaterer brugergrænsefladen og modificerer stregsystemet.

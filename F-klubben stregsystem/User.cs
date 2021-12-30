@@ -16,7 +16,8 @@ namespace F_klubben_stregsystem
             userName = UserName;
             email = Email;
             Balance = balance;
-            id++;
+            id = globalId;
+            globalId++;
 
         }
 
@@ -41,9 +42,10 @@ namespace F_klubben_stregsystem
         }
 
         private string _userName, _email, _firstname, _lastname;
-        public static int id { get; set; }
+        private static int globalId = 1;
+        public int id { get; set; }
 
-        public string firstName
+    public string firstName
         {
             get
             {
@@ -130,26 +132,7 @@ namespace F_klubben_stregsystem
 
         public decimal Balance { get; set; }
 
-        public delegate void UserBalanceNotification(User user, decimal balance);
 
-
-        /*maybe make the delegate a bool and return either true or false depending on whether the balance is under 50
-                                                         By defualt have it be false and return true if under 50.
-                  
-         */
-        /*
-        public void InsuffecientBalance(UserBalanceNotification userBalanceNotification)
-        {
-            userBalanceNotification(, )
-            balance = 50;
-            string balanceNotif = " ";
-            if (user.Balance < balance)
-            {
-                balanceNotif = $"{user.firstName} Balance under 50 kr.";
-            }
-
-        }
-        */
 
         /*Work on this later*/
         public override int GetHashCode()
@@ -159,7 +142,7 @@ namespace F_klubben_stregsystem
 
         public override string ToString()
         {
-            return $"{firstName} {lastName} {userName} {email} {id}";
+            return $"{firstName} {lastName} {userName} {email} ";
         }
 
 

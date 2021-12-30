@@ -32,7 +32,7 @@ namespace F_klubben_stregsystem
 
         }
 
-        public void Execute()
+        public virtual void Execute()
         {
 
         }
